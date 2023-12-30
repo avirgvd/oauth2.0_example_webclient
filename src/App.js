@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Moon, Sun } from "grommet-icons";
+import {Logout, Moon, Sun} from "grommet-icons";
 import {
   Box,
   Button,
@@ -20,6 +20,10 @@ import {
   Text,
 } from "grommet";
 import { deepMerge } from "grommet/utils";
+import Routes from './Routes';
+import {RouterProvider} from "react-router-dom";
+import Login from "./Login";
+import {getToken, setToken, clearToken} from "./utils"
 
 const theme = deepMerge(grommet, {
   global: {
@@ -43,29 +47,6 @@ const AppBar = (props) => (
   />
 );
 
-const CardTemplate = ({ title }) => {
-  const size = useContext(ResponsiveContext);
-  return (
-    <Card>
-      <CardHeader pad="medium">
-        <Heading level={2} margin="none">
-          {title}
-        </Heading>
-      </CardHeader>
-      <CardBody pad="medium">
-        <Paragraph maxLines={size === "small" ? 3 : undefined}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
-          porttitor non nulla ac vehicula. Aliquam erat volutpat. Mauris auctor
-          faucibus est at mattis. Aliquam a enim ac nisi aliquam consectetur et
-          ac velit. Mauris ut imperdiet libero.
-        </Paragraph>
-      </CardBody>
-      <CardFooter pad="medium" background="background-contrast">
-        Footer
-      </CardFooter>
-    </Card>
-  );
-};
 
 const App = () => {
   const [dark, setDark] = useState(false);
@@ -74,7 +55,8 @@ const App = () => {
     <Grommet theme={theme} full themeMode={dark ? "dark" : "light"}>
       <Page>
         <AppBar>
-          <Text size="large">My App</Text>
+          <Text size="large">OAuth 2.0 Example Web Client</Text>
+          <Box direction={"row"}>
           <Button
             a11yTitle={dark ? "Switch to Light Mode" : "Switch to Dark Mode"}
             icon={dark ? <Moon /> : <Sun />}
@@ -92,15 +74,12 @@ const App = () => {
               plain: true,
             }}
           />
+          <Button plain icon={<Logout />} onClick={clearToken}></Button>
+          </Box>
         </AppBar>
-        <PageContent>
-          <PageHeader title="Welcome to Grommet!" />
-          <Grid columns="medium" gap="large" pad={{ bottom: "large" }}>
-            <CardTemplate title={"Card 1"} />
-            <CardTemplate title={"Card 2"} />
-            <CardTemplate title={"Card 3"} />
-          </Grid>
-        </PageContent>
+        <Box>
+          <RouterProvider router={Routes()}></RouterProvider>
+        </Box>
       </Page>
     </Grommet>
   );
