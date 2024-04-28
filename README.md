@@ -1,3 +1,13 @@
+
+Very important documentation for Google OAuth2.0:
+
+[Using OAuth 2.0 for Web Server Applications](https://developers.google.com/identity/protocols/oauth2/web-server)  
+[OAuth 2.0 for Client-side Web Applications](https://developers.google.com/identity/protocols/oauth2/javascript-implicit-flow)  
+
+[The complete guide to protecting your APIs with OAuth2 (part 1)](https://stackoverflow.blog/2022/12/22/the-complete-guide-to-protecting-your-apis-with-oauth2/)    
+
+
+
 # Grommet Starter - New App
 
 Welcome :tada:! Thanks for your interest in starting fresh with Grommet, we are thrilled to have you on board.

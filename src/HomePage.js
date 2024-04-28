@@ -1,9 +1,10 @@
 import {Component} from "react";
 import {Box, Card, CardBody, Header, Heading} from "grommet";
-import {getToken, setToken} from "./utils";
+import {clearToken, getToken, setToken} from "./utils";
 import {RouterProvider} from "react-router-dom";
 import Routes from "./Routes";
 import Login from "./Login";
+import {getRESTApi} from "./rest_call";
 
 class HomePage extends Component {
 
@@ -17,6 +18,21 @@ class HomePage extends Component {
         // On successful login the page will be redirected to web client to go through this check again, this time with new token.
         if(!token) {
             window.location = "/login"
+        }
+        else {
+            let url = "/api/home"
+            getRESTApi(url)
+                .then((response) => {
+                    console.log("Response: ", response)
+                    if(response.status === 401){
+                        // if server responds with unauthorized status, ask user to login
+                        clearToken()
+                        window.location.href = "/login"
+                    }
+                })
+                .catch((err) => {
+                    console.log("Exception ", err)
+                })
         }
 
     }

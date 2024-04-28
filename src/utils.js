@@ -3,16 +3,12 @@
 
 // Set session token JWT
 export function setToken(userToken) {
-    localStorage.setItem('token', JSON.stringify(userToken));
+    localStorage.setItem('token', userToken);
 }
 
 // Get session token JWT
 export function getToken() {
-    const tokenString = localStorage.getItem('token');
-    console.log("tokenString: ", tokenString);
-    const userToken = JSON.parse(tokenString);
-    return tokenString
-    // return userToken?.token
+    return localStorage.getItem('token');
 }
 
 // Remove session token

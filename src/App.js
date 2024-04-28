@@ -3,26 +3,15 @@ import {Logout, Moon, Sun} from "grommet-icons";
 import {
   Box,
   Button,
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Grid,
   grommet,
   Grommet,
   Header,
-  Heading,
   Page,
-  PageContent,
-  PageHeader,
-  Paragraph,
-  ResponsiveContext,
   Text,
 } from "grommet";
 import { deepMerge } from "grommet/utils";
 import Routes from './Routes';
 import {RouterProvider} from "react-router-dom";
-import Login from "./Login";
 import {getToken, setToken, clearToken} from "./utils"
 
 const theme = deepMerge(grommet, {
@@ -50,6 +39,9 @@ const AppBar = (props) => (
 
 const App = () => {
   const [dark, setDark] = useState(false);
+
+  console.log("App....")
+
 
   return (
     <Grommet theme={theme} full themeMode={dark ? "dark" : "light"}>

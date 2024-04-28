@@ -1,11 +1,12 @@
 import * as React from "react";
 
 import {
-    createBrowserRouter,
+    createBrowserRouter
 } from "react-router-dom";
 
 import HomePage from "./HomePage";
 import Login from "./Login";
+import AuthCallback from "./AuthCallback";
 
 export default function () {
     console.log("Routes1")
@@ -18,6 +19,10 @@ export default function () {
                 element: <HomePage/>
             },
             {
+                path: `${prefix}/auth/callback`,
+                element: <AuthCallback/>
+            },
+            {
                 path: `${prefix}/login`,
                 element: <Login/>
             },
@@ -27,12 +32,4 @@ export default function () {
             }
         ]
     );
-    // return (
-    //   // <Routes id="routesbox" as="main" overflow="auto" flex="grow" fill="vertical" align="center" justify="between" direction="row" >
-    //   <Box>
-    //     <Route path={`/`} component={HomePage} />
-    //     <Route exact path={`/`} component={HomePage} />
-    //     <Route path={`/mapview`} component={Playground} />
-    //   </Box>
-    // );
 }

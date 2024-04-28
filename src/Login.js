@@ -22,6 +22,7 @@ import version from "./Version";
 import {getToken, setToken} from "./utils";
 import {RouterProvider} from "react-router-dom";
 import Routes from "./Routes";
+import {getRESTApi} from "./rest_call";
 
 const userValidation = [
     // {
@@ -69,6 +70,7 @@ class Login extends Component {
     }
 
     componentDidMount() {
+        console.log("componentDidMount")
         const token = getToken();
         // Check for session token on web client start or page refresh.
         // Proceed to show login page only if the token is missing.
@@ -79,7 +81,7 @@ class Login extends Component {
     }
 
     componentWillUnmount() {
-        // this.props.dispatch(navEnable(true));
+        console.log("componentWillUnmount")
     }
 
     onChange(values) {
@@ -96,12 +98,19 @@ class Login extends Component {
 
     }
 
-    onGoogleSignIn(googleUser) {
-        let profile = googleUser.getBasicProfile();
-        console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-        console.log('Name: ' + profile.getName());
-        console.log('Image URL: ' + profile.getImageUrl());
-        console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+    onGoogleSignIn() {
+
+        let url = '/api/auth'
+        getRESTApi(url)
+            .then(response => response.json())
+            .then((response ) => {
+                console.log("onGoogleSignIn: response: ", response);
+                window.location.assign(response["url"]);
+            })
+            .catch((err) => {
+                window.alert("Failed to connect to server: " + err.statusText);
+                console.log("onGoogleSignIn: exception: ", err);
+            })
     }
 
 
@@ -114,14 +123,8 @@ class Login extends Component {
 
     render() {
         console.log("render: Login: this.props: ", this.props);
-        const {session} = this.props;
-
-        // console.log("Login: session", session);
-        // console.log("Login: this.state", this.state);
-        // console.log("Login: window.location.pathname: ", window.location.pathname);
 
         let notif = (<Box overflow="auto" align="center" flex="grow" background={{"color":"status-error","opacity":"medium"}} />);
-        // console.log("size: ", this.state.size);
 
         return (
             <Box
@@ -149,7 +152,6 @@ class Login extends Component {
                         </Text>
                     </Header>
                     <Form
-                        validate="submit"
                         value={this.state.creds}
                         onChange={this.onChange}
                         messages={{
@@ -158,7 +160,6 @@ class Login extends Component {
                         onSubmit={this._onSubmit}
                     >
                         <FormField
-                            required
                             label="User"
                             name="username"
                             htmlFor="user-sign-in"
@@ -174,7 +175,6 @@ class Login extends Component {
                             />
                         </FormField>
                         <FormField
-                            required
                             label="Password"
                             htmlFor="password-sign-in"
                             name="password"
@@ -192,7 +192,15 @@ class Login extends Component {
                             direction="row"
                             margin={{top: 'medium', bottom: 'small'}}
                             fill={"horizontal"}
+                            round="xsmall" border={{"color":"border","size":"small"}}
                         >
+                            <Button
+                                plain
+                                margin={"xsmall"}
+                                label={"Sign in with Google"}
+                                icon={<Google />}
+                                onClick={this.onGoogleSignIn}
+                            />
                         </Box>
                         <Box
                             justify="stretch"
@@ -200,7 +208,6 @@ class Login extends Component {
                             margin={{top: 'medium', bottom: 'small'}}
                             fill={"horizontal"}
                         >
-                            <GoogleAuth/>
                         </Box>
                         {notif}
                         <Box
